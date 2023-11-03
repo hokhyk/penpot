@@ -230,6 +230,43 @@
 ;; MUTATION COMMANDS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; ;; --- MUTATION COMMAND: upsert-file-object-thumbnail
+
+;; (def sql:upsert-object-thumbnail
+;;   "insert into file_tagged_object_thumbnail(file_id, tag, object_id, data)
+;;    values (?, ?, ?, ?)
+;;        on conflict(file_id, tag, object_id) do
+;;           update set data = ?;")
+
+;; (defn upsert-file-object-thumbnail!
+;;   [conn {:keys [file-id tag object-id data]}]
+;;   (if data
+;;     (db/exec-one! conn [sql:upsert-object-thumbnail file-id (or tag "frame") object-id data data])
+;;     (db/delete! conn :file-tagged-object-thumbnail {:file-id file-id :object-id object-id})))
+
+;; (s/def ::data (s/nilable :string))
+;; (s/def ::object-id :string)
+;; (s/def ::tag :string)
+
+;; (s/def ::upsert-file-object-thumbnail
+;;   (s/keys :req [::rpc/profile-id]
+;;           :req-un [::file-id ::object-id]
+;;           :opt-un [::data ::tag]))
+
+;; (sv/defmethod ::upsert-file-object-thumbnail
+;;   {::doc/added "1.17"
+;;    ::doc/module :files
+;;    ::doc/deprecated "1.19"
+;;    ::audit/skip true}
+;;   [{:keys [::db/pool] :as cfg} {:keys [::rpc/profile-id file-id] :as params}]
+;;   (db/with-atomic [conn pool]
+;;     (files/check-edition-permissions! conn profile-id file-id)
+
+;;     (when-not (db/read-only? conn)
+;;       (upsert-file-object-thumbnail! conn params)
+;;       nil)))
+
+
 ;; --- MUTATION COMMAND: create-file-object-thumbnail
 
 (def ^:private sql:create-object-thumbnail
