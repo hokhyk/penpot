@@ -51,7 +51,8 @@
                        (map cfg/resolve-file-media))
                      fills)
 
-        embed       (embed/use-data-uris uris)
+        ;; embed       (embed/use-data-uris uris)
+        embed       uris
         transform   (gsh/transform-str shape)
 
         ;; When true the image has not loaded yet

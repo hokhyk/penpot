@@ -212,7 +212,8 @@
                            :shape shape}
         stroke-image  (:stroke-image stroke)
         uri           (when stroke-image (cfg/resolve-file-media stroke-image))
-        embed         (embed/use-data-uris [uri])
+        ;; embed         (embed/use-data-uris [uri])
+        embed         [uri]
 
         stroke-width  (case (:stroke-alignment stroke :center)
                         :center (/ (:stroke-width stroke 0) 2)
