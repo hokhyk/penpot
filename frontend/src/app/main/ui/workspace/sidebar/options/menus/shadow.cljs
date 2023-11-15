@@ -164,7 +164,8 @@
        [:*
         [:div {:class (stl/css :basic-options)}
          [:div {:class (stl/css :shadow-info)}
-          [:button {:class (stl/css :more-options)
+          [:button {:class (stl/css-case :more-options true
+                                         :selected open-shadow)
                     :on-click on-toggle-open-shadow}
            i/menu-refactor]
           [:div {:class (stl/css :type-select)}
